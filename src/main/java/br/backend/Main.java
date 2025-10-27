@@ -8,7 +8,6 @@ import java.net.Socket;
 import produto.Produto;
 
 public class Main {
-
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final String HOST = "localhost";
     private static final int PORTA = 3001;
@@ -16,21 +15,20 @@ public class Main {
     public static void main(String[] args) {
         // ------------------- CATEGORIA -------------------
         //testarCriarCategoria();
-       // testarListarCategorias();
+        //testarListarCategorias();
         //testarEncontrarCategoria();
         //testarAtualizarCategoria();
-       // testarDeletarCategoria();
-        
+        //testarDeletarCategoria();
+
         // ------------------- PRODUTO -------------------
         //testarCriarProduto();
-        testarListarProdutos();
+        //testarListarProdutos();
         //testarEncontrarProduto();
         //testarAtualizarProduto();
-       //testarDeletarProduto();
+        //testarDeletarProduto();
     }
 
-    // ------------------- TESTES CATEGORIA -------------------
-     public static void testarCriarCategoria() {
+    public static void testarCriarCategoria() {
         Categoria categoria = new Categoria(null, "Bebidas", Tamanho.MEDIO, Embalagem.PLASTICO);
         Requisicao<Categoria> requisicao = new Requisicao<>(Acao.CRIAR, Entidade.CATEGORIA, categoria);
         enviarRequisicao(requisicao);
@@ -59,10 +57,8 @@ public class Main {
         enviarRequisicao(requisicao);
     }
 
-    // ------------------- TESTES PRODUTO -------------------
     public static void testarCriarProduto() {
-        Categoria categoria = new Categoria(1, "Bebida", Tamanho.MEDIO, Embalagem.LATA);
-        Produto produto = new Produto(null, "Coca-cola", 1.2, "unidade", categoria, 20, 5, 30);
+        Produto produto = new Produto(null, "Coca-Cola Zero", 2.5, "unidade", 1, 20, 5, 30, true);
         Requisicao<Produto> requisicao = new Requisicao<>(Acao.CRIAR, Entidade.PRODUTO, produto);
         enviarRequisicao(requisicao);
     }
@@ -73,39 +69,34 @@ public class Main {
     }
 
     public static void testarEncontrarProduto() {
-        Produto produto = new Produto(1, null, 0.0, null, null, 0, 0, 0);
+        Produto produto = new Produto(1, null, 0.0, null, null, 0, 0, 0, true);
         Requisicao<Produto> requisicao = new Requisicao<>(Acao.ENCONTRAR, Entidade.PRODUTO, produto);
         enviarRequisicao(requisicao);
     }
 
     public static void testarAtualizarProduto() {
-        Categoria categoria = new Categoria(1, "Bebidas Geladas", Tamanho.GRANDE, Embalagem.LATA);
-        Produto produto = new Produto(4, "Coca-cola Zero Zero", 2.5, "unidade", categoria, 20, 5, 30);
+        Produto produto = new Produto(1, "Coca-Cola Zero Zero", 3.0, "unidade", 1, 25, 5, 40, true);
         Requisicao<Produto> requisicao = new Requisicao<>(Acao.ATUALIZAR, Entidade.PRODUTO, produto);
         enviarRequisicao(requisicao);
     }
 
     public static void testarDeletarProduto() {
-        Produto produto = new Produto(3, null, 0.0, null, null, 0, 0, 0);
+        Produto produto = new Produto(1, null, 0.0, null, null, 0, 0, 0, true);
         Requisicao<Produto> requisicao = new Requisicao<>(Acao.DELETAR, Entidade.PRODUTO, produto);
         enviarRequisicao(requisicao);
     }
 
-    // ------------------- ENVIO -------------------
     private static <T> void enviarRequisicao(Requisicao<T> requisicao) {
         try (Socket socket = new Socket(HOST, PORTA);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
             String json = mapper.writeValueAsString(requisicao);
             out.println(json);
             System.out.println("→ Enviado: " + json);
-
             String resposta = in.readLine();
             System.out.println("← Resposta: " + resposta);
-
         } catch (Exception e) {
-            e.printStackTrace();    
+            e.printStackTrace();
         }
     }
 }

@@ -1,32 +1,30 @@
 package produto;
 
-import br.backend.Categoria;
-
 public class Produto {
 
     private Integer id;
     private String nome;
     private Double preco;
     private String unidade;
-    private Categoria categoria;
+    private Integer categoriaId;
     private Integer quantidade;
     private Integer quantidadeMinima;
     private Integer quantidadeMaxima;
+    private Boolean ativo;
 
     public Produto() {
-        this(null, null, null, null, null, null, null, null);
     }
 
-    public Produto(Integer id, String nome, Double preco, String unidade, Categoria categoria,
-            Integer quantidade, Integer quantidadeMinima, Integer quantidadeMaxima) {
+    public Produto(Integer id, String nome, Double preco, String unidade, Integer categoriaId, Integer quantidade, Integer quantidadeMinima, Integer quantidadeMaxima, Boolean ativo) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
         this.unidade = unidade;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
         this.quantidade = quantidade;
         this.quantidadeMinima = quantidadeMinima;
         this.quantidadeMaxima = quantidadeMaxima;
+        this.ativo = ativo;
     }
 
     public Integer getId() {
@@ -61,12 +59,12 @@ public class Produto {
         this.unidade = unidade;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public Integer getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(Integer categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     public Integer getQuantidade() {
@@ -93,37 +91,12 @@ public class Produto {
         this.quantidadeMaxima = quantidadeMaxima;
     }
 
-    public boolean acimadoMAX() {
-        return this.quantidade != null && this.quantidadeMaxima != null && this.quantidade > quantidadeMaxima;
+    public Boolean getAtivo() {
+        return ativo;
     }
 
-    public boolean abaixodoMIN() {
-        return this.quantidade != null && this.quantidadeMinima != null && this.quantidade < quantidadeMinima;
-    }
-
-    public double ValorTotal() {
-        if (preco == null || quantidade == null) {
-            return 0.0;
-        }
-        return this.preco * quantidade;
-    }
-
-    public void entrada() {
-        if (quantidade != null) {
-            this.quantidade += quantidade;
-        }
-    }
-
-    public void saida() {
-        if (quantidade != null) {
-            this.quantidade -= quantidade;
-        }
-    }
-
-    public void ajustarPreco(double porcentual) {
-        if (preco != null) {
-            this.preco += preco * (porcentual / 100);
-        }
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
 }
